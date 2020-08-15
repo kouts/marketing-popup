@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" style="margin-bottom: 1000px;">
     <div class="col text-center">
       <h1 class="heading">Modal container</h1>
       <p>

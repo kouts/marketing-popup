@@ -3,14 +3,13 @@ import { isMobileDevice } from '@/common/is-mobile-device';
 const isDesktop = !isMobileDevice();
 
 function createExitIntent(options) {
-  if (!options.name) {
-    throw new Error('You must provide a name as a unique identifier.');
-  }
-
   const defaults = {
     onTrigger: function() {}
   };
   const opts = Object.assign({}, defaults, options);
+
+  let lastScrollTop = 0;
+  let isScrolling = false;
 
   function trigger() {
     opts.onTrigger();
@@ -39,17 +38,36 @@ function createExitIntent(options) {
     e.returnValue = '';
   }
 
+  function scrollHandler(e) {
+    var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+    if (st > lastScrollTop) {
+      // console.log('scrolled down');
+    } else {
+      console.log('scrolling up');
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(function() {
+        // Run the callback
+        console.log('Scrolling has stopped.');
+      }, 66);
+    }
+    lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+  }
+
   const exitIntent = {
     init() {
       window.addEventListener('beforeunload', beforeUnloadHandler);
       if (isDesktop) {
         document.addEventListener('mouseout', mouseOutHandler);
       }
+      if (!isDesktop) {
+        window.addEventListener('scroll', scrollHandler, false);
+      }
     },
     destroy() {
       console.log('Destroyed');
       document.removeEventListener('mouseout', mouseOutHandler);
       window.removeEventListener('beforeunload', beforeUnloadHandler);
+      window.removeEventListener('scroll', scrollHandler);
     },
     trigger() {
       trigger();
