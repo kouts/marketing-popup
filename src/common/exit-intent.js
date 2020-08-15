@@ -11,21 +11,17 @@ function createExitIntent(options) {
   let touchStartY;
   let touchEndY;
 
-  const trigger = () => {
-    opts.onTrigger();
-  };
-
   const mouseOutHandler = (e) => {
     // clientY: Vertical coordinate within the application's client area at which the event occurred (as opposed to the coordinate within the page).
     // relatedTarget: The EventTarget the pointing device entered (when out of the document === null)
     // Do NOT trigger when hovering or clicking on selects (Firefox bug)
     if (e.clientY < 50 && e.relatedTarget === null && e.target.nodeName.toLowerCase() !== 'select') {
-      trigger();
+      opts.onTrigger();
     }
   };
 
   const beforeUnloadHandler = (e) => {
-    trigger();
+    opts.onTrigger();
     e.preventDefault();
     // Chrome requires returnValue to be set.
     e.returnValue = '';
@@ -38,10 +34,9 @@ function createExitIntent(options) {
   const touchEndHandler = (e) => {
     touchEndY = e.changedTouches[0].clientY;
     if (touchStartY > touchEndY) {
-      // console.log('down');
     } else {
-      // console.log('up');
-      trigger();
+      // up
+      opts.onTrigger();
     }
   };
 
@@ -57,7 +52,6 @@ function createExitIntent(options) {
       }
     },
     destroy() {
-      // console.log('Destroyed');
       window.removeEventListener('beforeunload', beforeUnloadHandler);
       if (isDesktop) {
         document.removeEventListener('mouseout', mouseOutHandler);

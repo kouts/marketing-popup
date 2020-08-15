@@ -13,6 +13,7 @@
 
 <script>
 import { createExitIntent } from '@/common/exit-intent';
+import { createScrollPercent } from '@/common/scroll-percent';
 import Modal from '@kouts/vue-modal';
 
 export default {
@@ -20,11 +21,19 @@ export default {
     Modal
   },
   props: {
+    name: {
+      type: String,
+      required: true
+    },
     exitIntent: {
       type: Boolean,
       default: false
     },
     waitMinutes: {
+      type: Number,
+      default: 0
+    },
+    scrollPercent: {
       type: Number,
       default: 0
     }
@@ -41,6 +50,10 @@ export default {
         onTrigger: () => this.showModal()
       });
     }
+    this.scrollPercentSvc = createScrollPercent({
+      percent: this.scrollPercent,
+      onTrigger: () => this.showModal()
+    });
   },
   beforeDestroy() {
     if (this.exitIntent) {
@@ -59,11 +72,11 @@ export default {
         console.warn('Modal opened already once.');
         return;
       }
+      this.modalOpened = true;
       const timeout = Math.floor(this.waitMinutes * 60 * 1000);
       console.log(timeout);
       setTimeout(() => {
         this.modalTrigger = true;
-        this.modalOpened = true;
       }, timeout);
     }
   }

@@ -19,8 +19,10 @@
         <popup-marketing
           v-if="showPopupMarketing"
           ref="marketing-popup-1"
+          name="marketing-popup-1"
           :exit-intent="true"
           :wait-minutes="0.05"
+          :scroll-percent="25"
         />
       </div>
     </div>
