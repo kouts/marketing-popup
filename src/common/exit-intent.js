@@ -1,14 +1,20 @@
-import { isTouchDevice } from '@/common/is-touch-device';
+import { isMobileDevice } from '@/common/is-mobile-device';
 
-const isDesktop = !isTouchDevice();
+const isDesktop = !isMobileDevice();
 
 function createExitIntent(options) {
+  if (!options.name) {
+    throw new Error('You must provide a name as a unique identifier.');
+  }
+
   const defaults = {
-    onTrigger: function(str) {
-      console.log(str || 'triggered');
-    }
+    onTrigger: function() {}
   };
   const opts = Object.assign({}, defaults, options);
+
+  function trigger() {
+    opts.onTrigger();
+  }
 
   function mouseOutHandler(e) {
     // If the mouse is near the top of the window (50px) fire the exit intent
@@ -22,20 +28,31 @@ function createExitIntent(options) {
       // document.removeEventListener('mouseout', mouseOutHandler);
 
       // Fire the exit intent
-      opts.onTrigger('mouseOutHandler');
+      trigger();
     }
   };
 
+  function beforeUnloadHandler(e) {
+    trigger();
+    e.preventDefault();
+    // Chrome requires returnValue to be set.
+    e.returnValue = '';
+  }
+
   const exitIntent = {
     init() {
-      document.body.setAttribute('data-exit-intent', true);
+      window.addEventListener('beforeunload', beforeUnloadHandler);
       if (isDesktop) {
         document.addEventListener('mouseout', mouseOutHandler);
       }
     },
     destroy() {
-      console.log('destroyed');
-      document.removeEventListener('mousemove', mouseOutHandler);
+      console.log('Destroyed');
+      document.removeEventListener('mouseout', mouseOutHandler);
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
+    },
+    trigger() {
+      trigger();
     }
   };
 

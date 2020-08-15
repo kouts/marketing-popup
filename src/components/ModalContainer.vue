@@ -30,9 +30,12 @@ export default {
     };
   },
   mounted() {
+    const self = this;
     this.exitIntent = createExitIntent({
+      name: 'firstModal',
       onTrigger() {
-        console.log('triggered!');
+        console.log('exit intent triggered!');
+        self.showModal = true;
       }
     });
     this.exitIntent.init();
