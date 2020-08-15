@@ -9,7 +9,12 @@
       <button type="button" class="btn btn-primary" @click="showModal=true">
         Open a modal
       </button>
-      <Modal v-model="showModal" title="My first modal">
+      <Modal
+        v-model="showModal"
+        title="My first modal"
+        @after-open="afterModalOpen"
+        @closing="closingModal"
+      >
         <p>Modal content goes here...</p>
       </Modal>
     </div>
@@ -42,6 +47,14 @@ export default {
   },
   beforeDestroy() {
     this.exitIntent.destroy();
+  },
+  methods: {
+    afterModalOpen() {
+      document.body.classList.add('overflow-hidden');
+    },
+    closingModal() {
+      document.body.classList.remove('overflow-hidden');
+    }
   }
 };
 </script>

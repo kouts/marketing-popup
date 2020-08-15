@@ -8,14 +8,14 @@ function createExitIntent(options) {
   };
   const opts = Object.assign({}, defaults, options);
 
-  let lastScrollTop = 0;
-  let isScrolling = false;
+  let touchStartY;
+  let touchEndY;
 
-  function trigger() {
+  const trigger = () => {
     opts.onTrigger();
-  }
+  };
 
-  function mouseOutHandler(e) {
+  const mouseOutHandler = (e) => {
     // If the mouse is near the top of the window (50px) fire the exit intent
     // clientY: Vertical coordinate within the application's client area at which the event occurred (as opposed to the coordinate within the page).
     // relatedTarget: The EventTarget the pointing device entered (when out of the document === null)
@@ -31,27 +31,26 @@ function createExitIntent(options) {
     }
   };
 
-  function beforeUnloadHandler(e) {
+  const beforeUnloadHandler = (e) => {
     trigger();
     e.preventDefault();
     // Chrome requires returnValue to be set.
     e.returnValue = '';
-  }
+  };
 
-  function scrollHandler(e) {
-    var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-    if (st > lastScrollTop) {
-      // console.log('scrolled down');
+  const touchStartHandler = (e) => {
+    touchStartY = e.touches[0].clientY;
+  };
+
+  const touchEndHandler = (e) => {
+    touchEndY = e.changedTouches[0].clientY;
+    if (touchStartY > touchEndY) {
+      // console.log('down');
     } else {
-      console.log('scrolling up');
-      window.clearTimeout(isScrolling);
-      isScrolling = setTimeout(function() {
-        // Run the callback
-        console.log('Scrolling has stopped.');
-      }, 66);
+      // console.log('up');
+      trigger();
     }
-    lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-  }
+  };
 
   const exitIntent = {
     init() {
@@ -60,14 +59,20 @@ function createExitIntent(options) {
         document.addEventListener('mouseout', mouseOutHandler);
       }
       if (!isDesktop) {
-        window.addEventListener('scroll', scrollHandler, false);
+        window.addEventListener('touchstart', touchStartHandler);
+        window.addEventListener('touchend', touchEndHandler);
       }
     },
     destroy() {
-      console.log('Destroyed');
-      document.removeEventListener('mouseout', mouseOutHandler);
+      // console.log('Destroyed');
       window.removeEventListener('beforeunload', beforeUnloadHandler);
-      window.removeEventListener('scroll', scrollHandler);
+      if (isDesktop) {
+        document.removeEventListener('mouseout', mouseOutHandler);
+      }
+      if (!isDesktop) {
+        window.removeEventListener('scroll', touchStartHandler);
+        window.removeEventListener('scroll', touchEndHandler);
+      }
     },
     trigger() {
       trigger();
