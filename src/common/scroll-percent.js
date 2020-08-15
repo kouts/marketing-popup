@@ -9,7 +9,6 @@ function getScrollPercent() {
 }
 
 function createScrollPercent(options) {
-
   const defaults = {
     onTrigger: function() {},
     percent: 0
