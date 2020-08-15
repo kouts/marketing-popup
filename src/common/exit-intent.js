@@ -66,11 +66,10 @@ function createExitIntent(options) {
         window.removeEventListener('scroll', touchStartHandler);
         window.removeEventListener('scroll', touchEndHandler);
       }
-    },
-    trigger() {
-      trigger();
     }
   };
+
+  exitIntent.init();
 
   return exitIntent;
 };
