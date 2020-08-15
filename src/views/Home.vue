@@ -2,8 +2,11 @@
   <div class="container">
     <div class="text-center">
       <img alt="Vue logo" src="../assets/logo.png" class="text-center">
+      <div class="mb-4">
+        <button type="button" class="btn btn-primary" @click="showModalContainer = !showModalContainer">Toggle modal container</button>
+      </div>
     </div>
-    <modal-container />
+    <modal-container v-if="showModalContainer" />
   </div>
 </template>
 
@@ -15,9 +18,9 @@ export default {
   components: {
     ModalContainer
   },
-  data: function() {
+  data() {
     return {
-      showModal: false
+      showModalContainer: true
     };
   }
 };
