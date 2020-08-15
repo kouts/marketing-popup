@@ -2,11 +2,11 @@
   <div>
     <modal
       v-model="modalTrigger"
-      title="My first modal"
+      :title="popupTitle"
       @after-open="afterModalOpen"
       @closing="closingModal"
     >
-      <p>Modal content goes here...</p>
+      <slot></slot>
     </modal>
   </div>
 </template>
@@ -21,42 +21,58 @@ export default {
     Modal
   },
   props: {
-    name: {
+    popupId: {
       type: String,
       required: true
     },
-    exitIntent: {
+    popupTitle: {
+      type: String,
+      default: 'Marketing Popup'
+    },
+    showAfterMinutes: {
+      type: Number,
+      default: 0
+    },
+    showAfterScrollPercent: {
+      type: Number,
+      default: 0
+    },
+    showOnExitIntent: {
       type: Boolean,
       default: false
-    },
-    waitMinutes: {
-      type: Number,
-      default: 0
-    },
-    scrollPercent: {
-      type: Number,
-      default: 0
     }
   },
   data: function() {
     return {
       modalTrigger: false,
-      modalOpened: false
+      modalOpened: false,
+      timeout: null
     };
   },
   mounted() {
-    if (this.exitIntent) {
+    if (this.showAfterMinutes) {
+      this.showModalTimer();
+    }
+    if (this.showAfterScrollPercent) {
+      this.scrollPercentSvc = createScrollPercent({
+        percent: this.showAfterScrollPercent,
+        onTrigger: () => this.showModal()
+      });
+    }
+    if (this.showOnExitIntent) {
       this.exitIntentSvc = createExitIntent({
         onTrigger: () => this.showModal()
       });
     }
-    this.scrollPercentSvc = createScrollPercent({
-      percent: this.scrollPercent,
-      onTrigger: () => this.showModal()
-    });
   },
   beforeDestroy() {
-    if (this.exitIntent) {
+    if (this.showAfterMinutes) {
+      this.clearModalTimer();
+    }
+    if (this.showAfterScrollPercent) {
+      this.scrollPercentSvc.destroy();
+    }
+    if (this.showOnExitIntent) {
       this.exitIntentSvc.destroy();
     }
   },
@@ -73,11 +89,20 @@ export default {
         return;
       }
       this.modalOpened = true;
-      const timeout = Math.floor(this.waitMinutes * 60 * 1000);
-      console.log(timeout);
+      this.modalTrigger = true;
+    },
+    showModalTimer() {
+      if (this.showAfterMinutes <= 0) {
+        return;
+      }
+      this.timeout = Math.floor(this.showAfterMinutes * 60 * 1000);
       setTimeout(() => {
-        this.modalTrigger = true;
-      }, timeout);
+        this.showModal();
+        this.clearModalTimer();
+      }, this.timeout);
+    },
+    clearModalTimer() {
+      window.clearTimeout(this.timeout);
     }
   }
 };

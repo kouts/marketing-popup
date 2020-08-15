@@ -19,11 +19,14 @@
         <popup-marketing
           v-if="showPopupMarketing"
           ref="marketing-popup-1"
-          name="marketing-popup-1"
-          :exit-intent="true"
-          :wait-minutes="0.05"
-          :scroll-percent="25"
-        />
+          popup-id="marketing-popup-1"
+          popup-title="Marketing Popup"
+          :show-after-minutes="0.05"
+          :show-after-scroll-percent="25"
+          :show-on-exit-intent="true"
+        >
+          <div>Popup content goes here...</div>
+        </popup-marketing>
       </div>
     </div>
   </div>
