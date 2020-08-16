@@ -1,4 +1,4 @@
-import { debounce } from '@/common/utils';
+import { debounce } from '@/common/debounce';
 
 function getScrollPercent() {
   const h = document.documentElement;
