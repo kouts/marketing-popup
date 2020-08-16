@@ -11,6 +11,10 @@
 |
 */
 
-$router->get('/api', function () use ($router) {
-    return $router->app->version();
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('/', function () use ($router) {
+        return $router->app->version();
+    });
+    $router->get('hello', 'PopupController@hello');
+    $router->get('world', 'PopupController@world');
 });
