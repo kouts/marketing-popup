@@ -3,9 +3,12 @@
     <div class="text-center">
       <img alt="Vue logo" src="../assets/logo.png" class="text-center">
       <div class="mb-4">
-        <button type="button" class="btn btn-primary" @click="showPopupMarketing = !showPopupMarketing">Toggle modal container</button>
+        <button type="button" class="btn btn-primary" @click="showPopupMarketingSection = !showPopupMarketingSection">Toggle modal container</button>
         <button type="button" class="btn btn-primary ml-2" @click="$refs['marketing-popup-1'].showModal()">
           Open a modal
+        </button>
+        <button type="button" class="btn btn-primary ml-2" @click="clearLocalStorage">
+          Clear localStorage
         </button>
       </div>
     </div>
@@ -17,7 +20,7 @@
           Find out more at <a class="custom" href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
         </p>
         <popup-marketing
-          v-if="showPopupMarketing"
+          v-if="showPopupMarketingSection"
           ref="marketing-popup-1"
           popup-id="marketing-popup-1"
           popup-title="Marketing Popup"
@@ -41,8 +44,13 @@ export default {
   },
   data() {
     return {
-      showPopupMarketing: true
+      showPopupMarketingSection: true
     };
+  },
+  methods: {
+    clearLocalStorage() {
+      localStorage.clear();
+    }
   }
 };
 </script>

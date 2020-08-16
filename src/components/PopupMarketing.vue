@@ -14,7 +14,13 @@
 <script>
 import { createExitIntent } from '@/common/exit-intent';
 import { createScrollPercent } from '@/common/scroll-percent';
+import { setObject, getObject } from '@/common/storage';
 import Modal from '@kouts/vue-modal';
+
+function unixNow() {
+  const now = new Date();
+  return now.getTime();
+}
 
 export default {
   components: {
@@ -45,7 +51,6 @@ export default {
   data: function() {
     return {
       modalTrigger: false,
-      modalOpened: false,
       timeout: null
     };
   },
@@ -63,6 +68,9 @@ export default {
       this.exitIntentSvc = createExitIntent({
         onTrigger: () => this.showModal()
       });
+    }
+    if (this.expiration) {
+      console.log('expiration set');
     }
   },
   beforeDestroy() {
@@ -84,11 +92,16 @@ export default {
       document.body.classList.remove('overflow-hidden');
     },
     showModal() {
-      if (this.modalOpened) {
+      if (this.modalOpened()) {
         console.warn('Modal opened already once.');
         return;
       }
-      this.modalOpened = true;
+      // Store opened time in localStorage
+      const timeNow = unixNow();
+      setObject(this.popupId, {
+        opened: timeNow
+      });
+
       this.modalTrigger = true;
     },
     showModalTimer() {
@@ -103,6 +116,16 @@ export default {
     },
     clearModalTimer() {
       window.clearTimeout(this.timeout);
+    },
+    modalOpened() {
+      const timeNow = unixNow();
+      const popupInfo = getObject(this.popupId);
+      if (!popupInfo) {
+        return false;
+      }
+      if (popupInfo.opened < timeNow) {
+        return true;
+      }
     }
   }
 };
