@@ -3,8 +3,8 @@
     <modal
       v-model="modalTrigger"
       :title="popupTitle"
-      @after-open="afterModalOpen"
-      @closing="closingModal"
+      @after-open="onAfterModalOpen"
+      @closing="onClosingModal"
     >
       <slot></slot>
     </modal>
@@ -68,7 +68,7 @@ export default {
   },
   mounted() {
     if (this.showAfterMinutes) {
-      this.showModalTimer();
+      this.showModalUsingTimer();
     }
     if (this.showAfterScrollPercent) {
       this.scrollPercentSvc = createScrollPercent({
@@ -94,10 +94,10 @@ export default {
     }
   },
   methods: {
-    afterModalOpen() {
+    onAfterModalOpen() {
       document.body.classList.add('overflow-hidden');
     },
-    closingModal() {
+    onClosingModal() {
       document.body.classList.remove('overflow-hidden');
     },
     showModal() {
@@ -113,7 +113,18 @@ export default {
 
       this.modalTrigger = true;
     },
-    showModalTimer() {
+    shouldModalOpen() {
+      const now = unixNow();
+      const popupInfo = getObject(this.popupId);
+      if (!popupInfo) {
+        return true;
+      }
+      if (now > popupInfo.opened + this.periodsInSecondsMap[this.showFrequency]) {
+        return true;
+      }
+      return false;
+    },
+    showModalUsingTimer() {
       if (this.showAfterMinutes <= 0) {
         return;
       }
@@ -125,17 +136,6 @@ export default {
     },
     clearModalTimer() {
       window.clearTimeout(this.timeout);
-    },
-    shouldModalOpen() {
-      const now = unixNow();
-      const popupInfo = getObject(this.popupId);
-      if (!popupInfo) {
-        return true;
-      }
-      if (now > popupInfo.opened + this.periodsInSecondsMap[this.showFrequency]) {
-        return true;
-      }
-      return false;
     }
   }
 };
