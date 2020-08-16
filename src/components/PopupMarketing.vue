@@ -18,8 +18,8 @@ import { setObject, getObject } from '@/common/storage';
 import Modal from '@kouts/vue-modal';
 
 function unixNow() {
-  const now = new Date();
-  return now.getTime();
+  // Timestamp in seconds
+  return Math.floor(Date.now() / 1000);
 }
 
 export default {
@@ -46,12 +46,24 @@ export default {
     showOnExitIntent: {
       type: Boolean,
       default: false
+    },
+    showFrequency: {
+      type: String,
+      default: 'seconds10'
     }
   },
   data: function() {
     return {
       modalTrigger: false,
-      timeout: null
+      timeout: null,
+      periodsInSecondsMap: {
+        seconds10: 10,
+        days1: 86400,
+        days2: 172800,
+        weeks1: 604800,
+        weeks2: 1209600,
+        months1: 2629800
+      }
     };
   },
   mounted() {
@@ -68,9 +80,6 @@ export default {
       this.exitIntentSvc = createExitIntent({
         onTrigger: () => this.showModal()
       });
-    }
-    if (this.expiration) {
-      console.log('expiration set');
     }
   },
   beforeDestroy() {
@@ -92,14 +101,14 @@ export default {
       document.body.classList.remove('overflow-hidden');
     },
     showModal() {
-      if (this.modalOpened()) {
+      if (this.shouldModalOpen() === false) {
         console.warn('Modal opened already once.');
         return;
       }
       // Store opened time in localStorage
-      const timeNow = unixNow();
+      const now = unixNow();
       setObject(this.popupId, {
-        opened: timeNow
+        opened: now
       });
 
       this.modalTrigger = true;
@@ -117,15 +126,16 @@ export default {
     clearModalTimer() {
       window.clearTimeout(this.timeout);
     },
-    modalOpened() {
-      const timeNow = unixNow();
+    shouldModalOpen() {
+      const now = unixNow();
       const popupInfo = getObject(this.popupId);
       if (!popupInfo) {
-        return false;
-      }
-      if (popupInfo.opened < timeNow) {
         return true;
       }
+      if (now > popupInfo.opened + this.periodsInSecondsMap[this.showFrequency]) {
+        return true;
+      }
+      return false;
     }
   }
 };

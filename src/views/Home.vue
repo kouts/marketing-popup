@@ -27,6 +27,7 @@
           :show-after-minutes="0.05"
           :show-after-scroll-percent="25"
           :show-on-exit-intent="true"
+          show-frequency="seconds10"
         >
           <div>Popup content goes here...</div>
         </popup-marketing>
