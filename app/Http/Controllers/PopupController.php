@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Libs;
 
 class PopupController extends Controller
 {
@@ -16,6 +17,8 @@ class PopupController extends Controller
 
     public function hello()
     {
+        $res = app()->Db->q_a("SELECT * FROM list_of_values");
+        print_pre($res, true);
         return 'Hello!';
     }
 
