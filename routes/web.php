@@ -15,7 +15,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/', function () use ($router) {
         return $router->app->version();
     });
-    $router->get('popup', 'PopupController@popup');
-    $router->get('popups', 'PopupController@popups');
-    $router->get('list-of-values/{name}', 'ListOfValueController@listOfValues');
+
+    // Popups
+    $router->get('popups', 'PopupController@showAllPopups');
+    $router->get('popups/{id}', 'PopupController@showOnePopup');
+    $router->post('popups', 'PopupController@create');
+    $router->put('popups/{id}', 'PopupController@update');
+    $router->delete('popups/{id}', 'PopupController@delete');
+
+    // List of values
+    $router->get('list-of-values/{name}', 'ListOfValueController@showOneListOfValues');
 });
