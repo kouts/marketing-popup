@@ -1,12 +1,12 @@
 <template>
   <modal
     v-model="open"
-    title="Test tile"
+    title="Popup settings"
     modal-class="popup-details-modal"
     @after-open="afterModalOpen"
     @closing="closingModal"
   >
-    <div class="pt-2">
+    <div class="pt-2 px-2">
       <div class="form-group row">
         <label for="popupTitle" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
@@ -19,29 +19,61 @@
           <textarea id="popupContent" class="form-control" rows="3"></textarea>
         </div>
       </div>
-      <div class="form-group row">
-        <div class="col">
+      <h5 class="mb-0">Automatically show</h5>
+      <hr class="mt-1" />
+      <div class="form-group row d-flex align-items-center">
+        <div class="col-sm-3 mb-2 mb-sm-0">
           <div class="custom-control custom-checkbox">
             <input id="showOnTimer" type="checkbox" class="custom-control-input">
             <label class="custom-control-label" for="showOnTimer">Show on a timer</label>
           </div>
         </div>
-        <div class="col">
+        <div class="col-sm-5">
           <select class="custom-select">
             <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
           </select>
         </div>
       </div>
-      <hr class="full-hr" />
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="float-right">
-            <button type="button" class="btn btn-primary" @click="open = false">Ok</button>
-            <button type="button" class="btn btn-secondary ml-2" @click="open = false">Close</button>
+      <div class="form-group row d-flex align-items-center">
+        <div class="col-sm-3 mb-2 mb-sm-0">
+          <div class="custom-control custom-checkbox">
+            <input id="showAfterScrolling" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="showAfterScrolling">Show after scrolling</label>
           </div>
+        </div>
+        <div class="col-sm-5">
+          <select class="custom-select">
+            <option selected>Open this select menu</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-3">
+          <div class="custom-control custom-checkbox">
+            <input id="showOnExitIntent" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="showOnExitIntent">Show on exit intent</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row d-flex align-items-center">
+        <div class="col-sm-3">
+          <div class="custom-control custom-checkbox">
+            <label class="custom-control-label dummy-custom-control-label">Show at most every</label>
+          </div>
+        </div>
+        <div class="col-sm-5">
+          <select class="custom-select">
+            <option selected>Open this select menu</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <hr class="full-hr" />
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="float-right">
+          <button type="button" class="btn btn-primary" @click="open = false">Ok</button>
+          <button type="button" class="btn btn-secondary ml-2" @click="open = false">Close</button>
         </div>
       </div>
     </div>
@@ -106,6 +138,9 @@ export default {
 </script>
 
 <style lang="scss">
+.dummy-custom-control-label::before {
+  border-color: transparent;
+}
 .popup-details-modal {
   max-width: 900px;
   min-height: 250px;
