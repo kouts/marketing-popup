@@ -19,6 +19,23 @@
         />
       </div>
     </div>
+    <popup-details
+      :id="popup.id"
+      :show-modal="showModal"
+      :title="popup.title"
+      :content="popup.content"
+      @modal-closed="showModal = false"
+    />
+    <div class="row mt-2">
+      <div class="form-group col-sm-12">
+        <select class="custom-select">
+          <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,14 +43,17 @@
 import { mapActions, mapState } from 'vuex';
 import { getFromList } from '@/common/utils';
 import PopupCard from '@/components/PopupCard.vue';
+import PopupDetails from '@/components/PopupDetails.vue';
 
 export default {
   components: {
-    PopupCard
+    PopupCard,
+    PopupDetails
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      showModal: false
     };
   },
   computed: {
@@ -55,7 +75,7 @@ export default {
     ...mapActions(['fetchPopups', 'fetchListOfValues']),
     getFromList,
     popupEdit(id) {
-      alert(id);
+      this.showModal = true;
     },
     popupDelete(id) {
       alert(id);
