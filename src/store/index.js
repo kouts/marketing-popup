@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { fetchPopups, fetchPopup } from '@/api/popup';
+import { fetchListOfValues } from '@/api/listOfValue';
 
 Vue.use(Vuex);
 
 export const state = {
   popups: [],
-  popup: {}
+  popup: {},
+  listOfValues: {}
 };
 
 export const actions = {
@@ -29,6 +31,16 @@ export const actions = {
     } catch (error) {
       console.log(error);
     }
+  },
+  async fetchListOfValues({ commit, state }, names) {
+    try {
+      const res = await fetchListOfValues(names);
+      if (res.listOfValues) {
+        commit('SET_LIST_OF_VALUES', res.listOfValues);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
@@ -38,6 +50,9 @@ export const mutations = {
   },
   SET_POPUP: (state, popup) => {
     state.popup = popup;
+  },
+  SET_LIST_OF_VALUES: (state, listOfValues) => {
+    state.listOfValues = listOfValues;
   }
 };
 
