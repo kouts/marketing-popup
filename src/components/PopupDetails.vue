@@ -1,8 +1,9 @@
 <template>
   <modal
     v-model="open"
-    title="Popup settings"
+    :title="title"
     modal-class="popup-details-modal"
+    @before-open="beforeModalOpen"
     @after-open="afterModalOpen"
     @closing="closingModal"
   >
@@ -10,13 +11,13 @@
       <div class="form-group row">
         <label for="popupTitle" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
-          <input id="popupTitle" type="text" class="form-control">
+          <input id="popupTitle" v-model="form.title" type="text" class="form-control">
         </div>
       </div>
       <div class="form-group row">
         <label for="popupContent" class="col-sm-2 col-form-label">Content</label>
         <div class="col-sm-10">
-          <textarea id="popupContent" class="form-control" rows="3"></textarea>
+          <textarea id="popupContent" v-model="form.content" class="form-control" rows="3"></textarea>
         </div>
       </div>
       <h5 class="mb-0">Automatically show</h5>
@@ -24,33 +25,37 @@
       <div class="form-group row d-flex align-items-center">
         <div class="col-sm-3 mb-2 mb-sm-0">
           <div class="custom-control custom-checkbox">
-            <input id="showOnTimer" type="checkbox" class="custom-control-input">
+            <input id="showOnTimer" v-model="form.timerEnable" type="checkbox" class="custom-control-input">
             <label class="custom-control-label" for="showOnTimer">Show on a timer</label>
           </div>
         </div>
         <div class="col-sm-5">
-          <select class="custom-select">
-            <option selected>Open this select menu</option>
+          <select v-model="form.timerValue" class="custom-select">
+            <option v-for="o in form.timerList" :key="o.value" :value="o.value">
+              {{ o.text }}
+            </option>
           </select>
         </div>
       </div>
       <div class="form-group row d-flex align-items-center">
         <div class="col-sm-3 mb-2 mb-sm-0">
           <div class="custom-control custom-checkbox">
-            <input id="showAfterScrolling" type="checkbox" class="custom-control-input">
+            <input id="showAfterScrolling" v-model="form.scrollingTriggerEnable" type="checkbox" class="custom-control-input">
             <label class="custom-control-label" for="showAfterScrolling">Show after scrolling</label>
           </div>
         </div>
         <div class="col-sm-5">
-          <select class="custom-select">
-            <option selected>Open this select menu</option>
+          <select v-model="form.scrollingTriggerValue" class="custom-select">
+            <option v-for="o in form.scrollingTriggerList" :key="o.value" :value="o.value">
+              {{ o.text }}
+            </option>
           </select>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-sm-3">
           <div class="custom-control custom-checkbox">
-            <input id="showOnExitIntent" type="checkbox" class="custom-control-input">
+            <input id="showOnExitIntent" v-model="form.exitIntentEnable" type="checkbox" class="custom-control-input">
             <label class="custom-control-label" for="showOnExitIntent">Show on exit intent</label>
           </div>
         </div>
@@ -62,8 +67,10 @@
           </div>
         </div>
         <div class="col-sm-5">
-          <select class="custom-select">
-            <option selected>Open this select menu</option>
+          <select v-model="form.frequencyValue" class="custom-select">
+            <option v-for="o in form.frequencyList" :key="o.value" :value="o.value">
+              {{ o.text }}
+            </option>
           </select>
         </div>
       </div>
@@ -82,6 +89,7 @@
 
 <script>
 import Modal from '@kouts/vue-modal';
+import { clone } from '@/common/utils';
 
 export default {
   components: {
@@ -107,11 +115,47 @@ export default {
     content: {
       type: String,
       default: ''
+    },
+    timerEnable: {
+      type: Boolean,
+      default: false
+    },
+    timerList: {
+      type: Array,
+      default: () => []
+    },
+    timerValue: {
+      type: String,
+      default: ''
+    },
+    scrollingTriggerEnable: {
+      type: Boolean,
+      default: false
+    },
+    scrollingTriggerList: {
+      type: Array,
+      default: () => []
+    },
+    scrollingTriggerValue: {
+      type: String,
+      default: ''
+    },
+    exitIntentEnable: {
+      type: Boolean,
+      default: false
+    },
+    frequencyList: {
+      type: Array,
+      default: () => []
+    },
+    frequencyValue: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
-
+      form: {}
     };
   },
   computed: {
@@ -127,6 +171,10 @@ export default {
     }
   },
   methods: {
+    beforeModalOpen() {
+      this.form = clone(this.$props);
+      console.log(this.form);
+    },
     afterModalOpen() {
       document.body.classList.add('overflow-hidden');
     },

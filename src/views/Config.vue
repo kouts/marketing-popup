@@ -24,6 +24,15 @@
       :show-modal="showModal"
       :title="popup.title"
       :content="popup.content"
+      :timer-enable="!!popup.timer_enable"
+      :timer-list="lovs.timer"
+      :timer-value="popup.timer_value"
+      :scrolling-trigger-enable="!!popup.scrolling_trigger_enable"
+      :scrolling-trigger-list="lovs.scrolling_trigger"
+      :scrolling-trigger-value="popup.scrolling_trigger_value"
+      :exit-intent-enable="!!popup.exit_intent_enable"
+      :frequency-list="lovs.frequency"
+      :frequency-value="popup.frequency_value"
       @modal-closed="showModal = false"
     />
   </div>
@@ -62,9 +71,10 @@ export default {
     this.loading = false;
   },
   methods: {
-    ...mapActions(['fetchPopups', 'fetchListOfValues']),
+    ...mapActions(['fetchPopups', 'fetchPopup', 'fetchListOfValues']),
     getFromList,
-    popupEdit(id) {
+    async popupEdit(id) {
+      await this.fetchPopup(id);
       this.showModal = true;
     },
     popupDelete(id) {

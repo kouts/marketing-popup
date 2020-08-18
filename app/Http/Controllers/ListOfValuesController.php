@@ -24,6 +24,6 @@ class ListOfValuesController extends Controller
         $for_in_values = $for_in['values'];
         $for_in_pairs = $for_in['pairs'];
         $res = app()->Db->q_a("SELECT * FROM list_of_values WHERE name IN ($for_in_values) ORDER BY name, seq_no ASC", $for_in_pairs);
-        return response()->json(['listOfValues' => group_by('name', $res)]);
+        return response()->json(group_by('name', $res));
     }
 }

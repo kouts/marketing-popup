@@ -17,13 +17,13 @@ class PopupController extends Controller
     public function showOnePopup($id)
     {
         $res = app()->Db->q_a("SELECT * FROM popup WHERE id = :id", [':id' => $id]);
-        return response()->json($res);
+        return response()->json($res[0]);
     }
 
     public function showAllPopups()
     {
         $res = app()->Db->q_a("SELECT * FROM popup");
-        return response()->json(['popups' => $res]);
+        return response()->json($res);
     }
 
     public function create(Request $request)
@@ -36,14 +36,14 @@ class PopupController extends Controller
     public function update($id, Request $request)
     {
         // Update popup here
-        $popup = [];
-        return response()->json($popup, 200);
+        $res = [];
+        return response()->json($res, 200);
     }
 
     public function delete($id)
     {
         // Update popup here
-        $popup = [];
+        $res = [];
         return response('Deleted Successfully', 200);
     }
 }

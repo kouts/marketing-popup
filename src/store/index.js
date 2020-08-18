@@ -2,12 +2,25 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { fetchPopups, fetchPopup } from '@/api/popup';
 import { fetchListOfValues } from '@/api/listOfValue';
+import { clone } from '@/common/utils';
 
 Vue.use(Vuex);
 
+export const popup = {
+  id: 0,
+  title: '',
+  timer_enable: 0,
+  timer_value: '',
+  scrolling_trigger_enable: 0,
+  scrolling_trigger_value: '',
+  exit_intent_enable: 0,
+  frequency_value: '',
+  content: ''
+};
+
 export const state = {
   popups: [],
-  popup: {},
+  popup: clone(popup),
   listOfValues: {}
 };
 
@@ -15,8 +28,8 @@ export const actions = {
   async fetchPopups({ commit, state }) {
     try {
       const res = await fetchPopups();
-      if (res.popups) {
-        commit('SET_POPUPS', res.popups);
+      if (res) {
+        commit('SET_POPUPS', res);
       }
     } catch (error) {
       console.log(error);
@@ -25,8 +38,8 @@ export const actions = {
   async fetchPopup({ commit }, id) {
     try {
       const res = await fetchPopup(id);
-      if (res.popup) {
-        commit('SET_POPUP', res.popup);
+      if (res) {
+        commit('SET_POPUP', res);
       }
     } catch (error) {
       console.log(error);
@@ -35,8 +48,8 @@ export const actions = {
   async fetchListOfValues({ commit, state }, names) {
     try {
       const res = await fetchListOfValues(names);
-      if (res.listOfValues) {
-        commit('SET_LIST_OF_VALUES', res.listOfValues);
+      if (res) {
+        commit('SET_LIST_OF_VALUES', res);
       }
     } catch (error) {
       console.log(error);
