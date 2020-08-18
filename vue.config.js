@@ -17,5 +17,8 @@ module.exports = {
       args[0].meta = { description: 'A single page application created using Vue.js' };
       return args;
     });
+  },
+  devServer: {
+    proxy: process.env.APP_URL
   }
 };

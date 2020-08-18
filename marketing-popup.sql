@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 17, 2020 at 09:18 PM
+-- Generation Time: Aug 18, 2020 at 11:24 AM
 -- Server version: 5.7.30
 -- PHP Version: 7.1.33-15+0~20200419.36+debian8~1.gbp2384b3
 
@@ -72,6 +72,13 @@ CREATE TABLE `popup` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
+-- Dumping data for table `popup`
+--
+
+INSERT INTO `popup` (`id`, `title`, `timer_enable`, `timer_value`, `scrolling_trigger_enable`, `scrolling_trigger_value`, `exit_intent_enable`, `frequency_value`, `content`) VALUES
+(1, 'Test popup', '1', '0.25', '1', '25', '1', '10', 'This is a test popup!');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -101,7 +108,7 @@ ALTER TABLE `list_of_values`
 -- AUTO_INCREMENT for table `popup`
 --
 ALTER TABLE `popup`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Libs;
 
 class PopupController extends Controller
 {
@@ -15,15 +14,15 @@ class PopupController extends Controller
         //
     }
 
-    public function hello()
+    public function popup($id)
     {
-        $res = app()->Db->q_a("SELECT * FROM list_of_values");
-        print_pre($res, true);
-        return 'Hello!';
+        $res = app()->Db->q_a("SELECT * FROM popup WHERE id = :id", [':id' => $id]);
+        return response()->json($res);
     }
 
-    public function world()
+    public function popups()
     {
-        return 'World!';
-    }    
+        $res = app()->Db->q_a("SELECT * FROM popup");
+        return response()->json(['popups' => $res]);
+    }
 }

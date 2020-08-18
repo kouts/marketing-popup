@@ -15,6 +15,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/', function () use ($router) {
         return $router->app->version();
     });
-    $router->get('hello', 'PopupController@hello');
-    $router->get('world', 'PopupController@world');
+    $router->get('popup', 'PopupController@popup');
+    $router->get('popups', 'PopupController@popups');
+    $router->get('list-of-values/{name}', 'ListOfValueController@listOfValues');
 });
