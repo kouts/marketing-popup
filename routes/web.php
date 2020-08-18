@@ -24,5 +24,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->delete('popups/{id}', 'PopupController@delete');
 
     // List of values
-    $router->get('list-of-values/{name}', 'ListOfValueController@showOneListOfValues');
+    $router->get('list-of-values/{names}', 'ListOfValuesController@showManyListOfValues');
 });
