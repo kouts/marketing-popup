@@ -42,7 +42,7 @@ class PopupController extends Controller
 
     public function delete($id)
     {
-        // Delete popup here
+        // Update popup here
         $popup = [];
         return response('Deleted Successfully', 200);
     }
