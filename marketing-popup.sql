@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 19, 2020 at 05:54 PM
+-- Generation Time: Aug 19, 2020 at 09:01 PM
 -- Server version: 5.7.30
 -- PHP Version: 7.1.33-15+0~20200419.36+debian8~1.gbp2384b3
 
@@ -78,7 +78,7 @@ CREATE TABLE `popup` (
 --
 
 INSERT INTO `popup` (`id`, `title`, `timer_enable`, `timer_value`, `scrolling_trigger_enable`, `scrolling_trigger_value`, `exit_intent_enable`, `frequency_value`, `content`, `created_at`, `updated_at`) VALUES
-(8, 'First popup', 0, '', 0, '', 0, '86400', 'First popup', '2020-08-19 14:52:30', '2020-08-19 14:53:14');
+(8, 'First popup edit', 0, '', 1, '25', 1, '172800', 'First popup edit', '2020-08-19 14:52:30', '2020-08-19 15:34:40');
 
 --
 -- Indexes for dumped tables
