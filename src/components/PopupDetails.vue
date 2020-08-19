@@ -36,7 +36,7 @@
       <div class="form-group row d-flex align-items-center">
         <div class="col-sm-3 mb-2 mb-sm-0">
           <div class="custom-control custom-checkbox">
-            <input id="showOnTimer" v-model="form.timerEnable" type="checkbox" class="custom-control-input">
+            <input id="showOnTimer" v-model="form.timerEnable" type="checkbox" class="custom-control-input" @change="timerCheckChanged($event)">
             <label class="custom-control-label" for="showOnTimer">Show on a timer</label>
           </div>
         </div>
@@ -52,7 +52,7 @@
       <div class="form-group row d-flex align-items-center">
         <div class="col-sm-3 mb-2 mb-sm-0">
           <div class="custom-control custom-checkbox">
-            <input id="showAfterScrolling" v-model="form.scrollingTriggerEnable" type="checkbox" class="custom-control-input">
+            <input id="showAfterScrolling" v-model="form.scrollingTriggerEnable" type="checkbox" class="custom-control-input" @change="scrollingCheckChanged($event)">
             <label class="custom-control-label" for="showAfterScrolling">Show after scrolling</label>
           </div>
         </div>
@@ -73,23 +73,6 @@
           </div>
         </div>
       </div>
-      <!--
-      <div class="form-group row d-flex align-items-center">
-        <div class="col-sm-3">
-          <div class="custom-control custom-checkbox">
-            <label class="custom-control-label dummy-custom-control-label">Show at most every</label>
-          </div>
-        </div>
-        <div class="col-sm-5">
-          <select v-model="form.frequencyValue" class="custom-select">
-            <option value="">-- Please select --</option>
-            <option v-for="o in form.frequencyList" :key="o.value" :value="o.value">
-              {{ o.text }}
-            </option>
-          </select>
-        </div>
-      </div>
-      -->
     </div>
     <hr class="full-hr" />
     <div class="row">
@@ -199,8 +182,8 @@ export default {
     exportFormDataForSave() {
       let form = clone(this.form);
       form = Object.assign({}, form, {
-        timerEnable: !!form.timerValue,
-        scrollingTriggerEnable: !!form.scrollingTriggerValue
+        timerEnable: !form.timerValue ? false : form.timerEnable,
+        scrollingTriggerEnable: !form.scrollingTriggerValue ? false : form.scrollingTriggerEnable
       });
       delete form.timerList;
       delete form.scrollingTriggerList;
@@ -210,6 +193,16 @@ export default {
     save() {
       // Perform validations here
       this.$emit('save', this.exportFormDataForSave());
+    },
+    timerCheckChanged(e) {
+      if (e.target.checked === false) {
+        this.form.timerValue = '';
+      }
+    },
+    scrollingCheckChanged(e) {
+      if (e.target.checked === false) {
+        this.form.scrollingTriggerValue = '';
+      }
     }
   }
 };
