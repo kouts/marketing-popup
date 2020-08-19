@@ -70,7 +70,14 @@ export default {
     }
     if (this.showOnExitIntent) {
       this.exitIntentSvc = createExitIntent({
-        onTrigger: () => this.showModal()
+        onTrigger: () => {
+          if (this.shouldModalOpen()) {
+            this.exitIntentSvc.preventUnload(true);
+          } else {
+            this.exitIntentSvc.preventUnload(false);
+          }
+          this.showModal();
+        }
       });
     }
   },
