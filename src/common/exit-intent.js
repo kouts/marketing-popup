@@ -8,6 +8,7 @@ function createExitIntent(options) {
   };
   const opts = Object.assign({}, defaults, options);
 
+  let doPreventUnload = false;
   let touchStartY;
   let touchEndY;
 
@@ -22,9 +23,12 @@ function createExitIntent(options) {
 
   const beforeUnloadHandler = (e) => {
     opts.onTrigger();
-    e.preventDefault();
-    // Chrome requires returnValue to be set.
-    e.returnValue = '';
+    // console.log(doPreventUnload);
+    if (doPreventUnload) {
+      e.preventDefault();
+      // Chrome requires returnValue to be set.
+      e.returnValue = '';
+    }
   };
 
   const touchStartHandler = (e) => {
@@ -41,6 +45,9 @@ function createExitIntent(options) {
   };
 
   const exitIntent = {
+    preventUnload(boolVar) {
+      doPreventUnload = boolVar;
+    },
     init() {
       window.addEventListener('beforeunload', beforeUnloadHandler);
       if (isDesktop) {
