@@ -84,7 +84,7 @@ export default {
   computed: {
     ...mapState(['popups'])
   },
-  mounted() {
+  created() {
     this.fetchPopups();
   },
   methods: {

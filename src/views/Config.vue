@@ -75,7 +75,7 @@ export default {
       lovs: 'listOfValues'
     })
   },
-  async mounted() {
+  async created() {
     this.loading = true;
     await this.fetchPageData();
     this.loading = false;
