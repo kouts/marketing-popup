@@ -48,22 +48,14 @@ export default {
       default: false
     },
     showFrequency: {
-      type: String,
-      default: 'seconds10'
+      type: Number,
+      default: 0
     }
   },
   data: function() {
     return {
       modalTrigger: false,
-      timeout: null,
-      periodsInSecondsMap: {
-        seconds10: 10,
-        days1: 86400,
-        days2: 172800,
-        weeks1: 604800,
-        weeks2: 1209600,
-        months1: 2629800
-      }
+      timeout: null
     };
   },
   mounted() {
@@ -102,7 +94,7 @@ export default {
     },
     showModal() {
       if (this.shouldModalOpen() === false) {
-        console.warn('Modal opened already once.');
+        console.info(`Modal entitled "${this.popupTitle}" opened already once.`);
         return;
       }
       // Store opened time in localStorage
@@ -119,7 +111,7 @@ export default {
       if (!popupInfo) {
         return true;
       }
-      if (now > popupInfo.opened + this.periodsInSecondsMap[this.showFrequency]) {
+      if (now > popupInfo.opened + this.showFrequency) {
         return true;
       }
       return false;
