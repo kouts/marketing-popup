@@ -1,7 +1,7 @@
 <template>
   <modal
     v-model="open"
-    :title="title"
+    :title="!id ? 'New Popup' : title"
     modal-class="popup-details-modal"
     @before-open="beforeModalOpen"
     @after-open="afterModalOpen"

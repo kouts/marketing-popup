@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <h1 class="mb-4">Popups configuration</h1>
+    <div class="d-flex flex-row justify-content-between align-items-center">
+      <h1 class="mb-4">Popups configuration</h1>
+      <button type="button" class="btn btn-primary" :disabled="popups.length > 2" @click="createPopup">
+        Create popup
+      </button>
+    </div>
     <div class="row">
       <div v-if="!loading" class="col-sm-12">
         <popup-card
@@ -14,7 +19,8 @@
           :scrolling-trigger-text="getFromList(lovs.scrolling_trigger, item.scrolling_trigger_value)"
           :exit-intent-enable="!!item.exit_intent_enable"
           :frequency-text="getFromList(lovs.frequency, item.frequency_value)"
-          @edit="popupEdit"
+          class="mb-2"
+          @edit="editPopup"
           @delete="deletePopup"
         />
         <div v-if="!loading && popups.length === 0" class="text-center">
@@ -46,7 +52,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { getFromList } from '@/common/utils';
-import { updatePopup, deletePopup } from '@/api/popup';
+import { createPopup, updatePopup, deletePopup } from '@/api/popup';
 import PopupCard from '@/components/PopupCard.vue';
 import PopupDetails from '@/components/PopupDetails.vue';
 
@@ -71,16 +77,23 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    await Promise.all([
-      this.fetchPopups(),
-      this.fetchListOfValues(['timer', 'scrolling_trigger', 'frequency'])
-    ]);
+    await this.fetchPageData();
     this.loading = false;
   },
   methods: {
-    ...mapActions(['fetchPopups', 'fetchPopup', 'updatePopup', 'fetchListOfValues']),
+    ...mapActions(['fetchPopups', 'fetchPopup', 'updatePopup', 'initializePopup', 'fetchListOfValues']),
     getFromList,
-    async popupEdit(id) {
+    fetchPageData() {
+      return Promise.all([
+        this.fetchPopups(),
+        this.fetchListOfValues(['timer', 'scrolling_trigger', 'frequency'])
+      ]);
+    },
+    createPopup() {
+      this.initializePopup();
+      this.showModal = true;
+    },
+    async editPopup(id) {
       this.loadingModal = true;
       await this.fetchPopup(id);
       this.showModal = true;
@@ -92,14 +105,20 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      this.fetchPageData();
     },
     async savePopup(popupData) {
       try {
-        await updatePopup(popupData.id, popupData);
+        if (!popupData.id) {
+          await createPopup(popupData);
+        } else {
+          await updatePopup(popupData.id, popupData);
+        }
       } catch (error) {
         console.log(error);
       }
       this.showModal = false;
+      this.fetchPageData();
     }
   }
 };

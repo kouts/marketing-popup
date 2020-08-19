@@ -34,7 +34,9 @@ class PopupController extends Controller
 
     public function create(Request $request)
     {
-        $res = [];
+        $popup = $request->input('popup');
+        // Perform validations here
+        $res = $this->popup->create($popup);
         return response()->json($res, 201);
     }
 

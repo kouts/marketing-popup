@@ -6,7 +6,7 @@ import { clone } from '@/common/utils';
 
 Vue.use(Vuex);
 
-export const popup = {
+const popup = {
   id: 0,
   title: '',
   timer_enable: 0,
@@ -44,6 +44,9 @@ export const actions = {
     } catch (error) {
       console.log(error);
     }
+  },
+  initializePopup({ commit }) {
+    commit('SET_POPUP', clone(popup));
   },
   async fetchListOfValues({ commit, state }, names) {
     try {

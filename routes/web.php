@@ -19,7 +19,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // Popups
     $router->get('popups', 'PopupController@showAllPopups');
     $router->get('popups/{id}', 'PopupController@showOnePopup');
-    $router->post('popups', 'PopupController@create');
+    $router->post('popups/create', 'PopupController@create');
     $router->put('popups/{id}', 'PopupController@update');
     $router->delete('popups/{id}', 'PopupController@delete');
 
