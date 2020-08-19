@@ -7,11 +7,11 @@
     @after-open="afterModalOpen"
     @closing="closingModal"
   >
-    <div class="pt-2 px-2">
+    <div v-if="!loading" class="pt-2 px-2">
       <div class="form-group row">
         <label for="popupTitle" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
-          <input id="popupTitle" v-model="form.title" type="text" class="form-control">
+          <input id="popupTitle" v-model="form.title" type="text" class="form-control" maxlength="70">
         </div>
       </div>
       <div class="form-group row">
@@ -31,6 +31,7 @@
         </div>
         <div class="col-sm-5">
           <select v-model="form.timerValue" class="custom-select">
+            <option value="">-- Please select --</option>
             <option v-for="o in form.timerList" :key="o.value" :value="o.value">
               {{ o.text }}
             </option>
@@ -46,6 +47,7 @@
         </div>
         <div class="col-sm-5">
           <select v-model="form.scrollingTriggerValue" class="custom-select">
+            <option value="">-- Please select --</option>
             <option v-for="o in form.scrollingTriggerList" :key="o.value" :value="o.value">
               {{ o.text }}
             </option>
@@ -68,6 +70,7 @@
         </div>
         <div class="col-sm-5">
           <select v-model="form.frequencyValue" class="custom-select">
+            <option value="">-- Please select --</option>
             <option v-for="o in form.frequencyList" :key="o.value" :value="o.value">
               {{ o.text }}
             </option>
@@ -79,7 +82,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="float-right">
-          <button type="button" class="btn btn-primary" @click="open = false">Ok</button>
+          <button type="button" class="btn btn-primary" @click="save">Ok</button>
           <button type="button" class="btn btn-secondary ml-2" @click="open = false">Close</button>
         </div>
       </div>
@@ -173,13 +176,23 @@ export default {
   methods: {
     beforeModalOpen() {
       this.form = clone(this.$props);
-      console.log(this.form);
     },
     afterModalOpen() {
       document.body.classList.add('overflow-hidden');
     },
     closingModal() {
       document.body.classList.remove('overflow-hidden');
+    },
+    exportFormData() {
+      const form = clone(this.form);
+      delete form.timerList;
+      delete form.scrollingTriggerList;
+      delete form.frequencyList;
+      return form;
+    },
+    save() {
+      // Perform validations here
+      this.$emit('save', this.exportFormData());
     }
   }
 };

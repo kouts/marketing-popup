@@ -22,6 +22,7 @@
     <popup-details
       :id="popup.id"
       :show-modal="showModal"
+      :loading="loadingModal"
       :title="popup.title"
       :content="popup.content"
       :timer-enable="!!popup.timer_enable"
@@ -34,6 +35,7 @@
       :frequency-list="lovs.frequency"
       :frequency-value="popup.frequency_value"
       @modal-closed="showModal = false"
+      @save="savePopup"
     />
   </div>
 </template>
@@ -41,6 +43,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { getFromList } from '@/common/utils';
+import { updatePopup } from '@/api/popup';
 import PopupCard from '@/components/PopupCard.vue';
 import PopupDetails from '@/components/PopupDetails.vue';
 
@@ -52,6 +55,7 @@ export default {
   data() {
     return {
       loading: false,
+      loadingModal: false,
       showModal: false
     };
   },
@@ -71,14 +75,24 @@ export default {
     this.loading = false;
   },
   methods: {
-    ...mapActions(['fetchPopups', 'fetchPopup', 'fetchListOfValues']),
+    ...mapActions(['fetchPopups', 'fetchPopup', 'updatePopup', 'fetchListOfValues']),
     getFromList,
     async popupEdit(id) {
+      this.loadingModal = true;
       await this.fetchPopup(id);
       this.showModal = true;
+      this.loadingModal = false;
     },
     popupDelete(id) {
       alert(id);
+    },
+    async savePopup(popupData) {
+      try {
+        await updatePopup(popupData.id, popupData);
+      } catch (error) {
+        console.log(error);
+      }
+      this.showModal = false;
     }
   }
 };

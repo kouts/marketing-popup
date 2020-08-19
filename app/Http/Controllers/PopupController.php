@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class PopupController extends Controller
 {
     /**
@@ -35,8 +37,33 @@ class PopupController extends Controller
 
     public function update($id, Request $request)
     {
-        // Update popup here
-        $res = [];
+        $popup = $request->input('popup');
+        // Perform validations here
+        $pairs = [
+            ':id' => $popup['id'],
+            ':title' => $popup['title'],
+            ':timer_enable' => $popup['timerEnable'],
+            ':timer_value'	=> $popup['timerValue'],
+            ':scrolling_trigger_enable' => $popup['scrollingTriggerEnable'],
+            ':scrolling_trigger_value'	=> $popup['scrollingTriggerValue'],
+            ':exit_intent_enable' => $popup['exitIntentEnable'],
+            ':frequency_value' => $popup['frequencyValue'],
+            ':content' => $popup['content']
+        ];
+        $res = app()->Db->qq("
+            UPDATE
+                popup
+            SET
+                title = :title,
+                timer_enable = :timer_enable,
+                timer_value	= :timer_value,
+                scrolling_trigger_enable = :scrolling_trigger_enable,
+                scrolling_trigger_value	= :scrolling_trigger_value,
+                exit_intent_enable = :exit_intent_enable,
+                frequency_value = :frequency_value,
+                content = :content
+            WHERE id = :id",
+        $pairs);
         return response()->json($res, 200);
     }
 

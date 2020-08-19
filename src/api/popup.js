@@ -11,3 +11,13 @@ export const fetchPopup = (id) => {
     url: 'popups/' + id
   });
 };
+
+export const updatePopup = (id, data) => {
+  return request({
+    method: 'put',
+    url: 'popups/' + id,
+    data: {
+      popup: data
+    }
+  });
+};
