@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 18, 2020 at 11:05 PM
+-- Generation Time: Aug 19, 2020 at 03:59 PM
 -- Server version: 5.7.30
 -- PHP Version: 7.1.33-15+0~20200419.36+debian8~1.gbp2384b3
 
@@ -76,7 +76,8 @@ CREATE TABLE `popup` (
 --
 
 INSERT INTO `popup` (`id`, `title`, `timer_enable`, `timer_value`, `scrolling_trigger_enable`, `scrolling_trigger_value`, `exit_intent_enable`, `frequency_value`, `content`) VALUES
-(1, 'Test popup', 1, '0.25', 1, '25', 1, '10', 'This is a test popup!');
+(1, 'Scrolling popup', 0, '', 1, '25', 0, '86400', 'This is a popup that appears after scrolling 25% of the page!'),
+(6, 'Exit intent popup', 0, '', 0, '', 1, '86400', 'This is a popup that appears when the user intents to leave the page.');
 
 --
 -- Indexes for dumped tables
@@ -108,7 +109,7 @@ ALTER TABLE `list_of_values`
 -- AUTO_INCREMENT for table `popup`
 --
 ALTER TABLE `popup`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
