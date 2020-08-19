@@ -15,8 +15,11 @@
           :exit-intent-enable="!!item.exit_intent_enable"
           :frequency-text="getFromList(lovs.frequency, item.frequency_value)"
           @edit="popupEdit"
-          @delete="popupDelete"
+          @delete="deletePopup"
         />
+        <div v-if="!loading && popups.length === 0" class="text-center">
+          <h2>No popups found</h2>
+        </div>
       </div>
     </div>
     <popup-details
@@ -43,7 +46,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { getFromList } from '@/common/utils';
-import { updatePopup } from '@/api/popup';
+import { updatePopup, deletePopup } from '@/api/popup';
 import PopupCard from '@/components/PopupCard.vue';
 import PopupDetails from '@/components/PopupDetails.vue';
 
@@ -83,8 +86,12 @@ export default {
       this.showModal = true;
       this.loadingModal = false;
     },
-    popupDelete(id) {
-      alert(id);
+    async deletePopup(id) {
+      try {
+        await deletePopup(id);
+      } catch (error) {
+        console.log(error);
+      }
     },
     async savePopup(popupData) {
       try {

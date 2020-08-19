@@ -21,3 +21,10 @@ export const updatePopup = (id, data) => {
     }
   });
 };
+
+export const deletePopup = (id) => {
+  return request({
+    method: 'delete',
+    url: 'popups/' + id
+  });
+};

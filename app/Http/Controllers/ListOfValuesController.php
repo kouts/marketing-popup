@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\ListOfValues;
+
 class ListOfValuesController extends Controller
 {
+    
+    protected $list_of_values;
+    
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ListOfValues $list_of_values)
     {
-        //
+        $this->list_of_values = $list_of_values;
     }
 
     public function showManyListOfValues($names)
     {
         parse_str($names, $parsed);
-        $listOfValues = array_map(function($item){
+        $listOfValuesNames = array_map(function($item){
             return ['name' => $item];
         }, $parsed['listOfValues']);
-        $for_in = app()->Db->create_values_for_in($listOfValues, 'name');
-        $for_in_values = $for_in['values'];
-        $for_in_pairs = $for_in['pairs'];
-        $res = app()->Db->q_a("SELECT * FROM list_of_values WHERE name IN ($for_in_values) ORDER BY name, seq_no ASC", $for_in_pairs);
-        return response()->json(group_by('name', $res));
+        $res = $this->list_of_values->getByNames($listOfValuesNames);
+        return response()->json($res);
     }
 }
