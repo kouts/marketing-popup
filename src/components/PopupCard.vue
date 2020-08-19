@@ -1,11 +1,11 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <div class="d-flex flex-row align-items-center flex-wrap">
+      <div class="d-flex flex-row flex-wrap">
         <div class="flex-grow-1">
           <h2 class="card-title">{{ title }}</h2>
         </div>
-        <div>
+        <div class="mb-2 mb-sm-0">
           <button type="button" class="btn btn-primary btn-sm" @click="$emit('edit', id)">
             Edit
           </button>
@@ -16,11 +16,11 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center" :title="`Timer ${timerEnable ? timerText : 'not enabled'}`">
             <i class="gg-timer mr-1"></i><div>{{ timerEnable ? timerText : 'Not enabled' }}</div>
           </div>
-          <div class="d-flex align-items-center">
-            <i class="gg-scroll-v ml-1 mr-2"></i><div>{{ scrollingTriggerEnable ? scrollingTriggerText : '-' }}</div>
+          <div class="d-flex align-items-center" :title="`Scrolling trigger ${scrollingTriggerEnable ? scrollingTriggerText : 'not enabled'}`">
+            <i class="gg-scroll-v ml-1 mr-2"></i><div>{{ scrollingTriggerEnable ? scrollingTriggerText : 'Not enabled' }}</div>
           </div>
         </div>
         <div class="col-md-6">

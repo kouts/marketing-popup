@@ -9,15 +9,26 @@
   >
     <div v-if="!loading" class="pt-2 px-2">
       <div class="form-group row">
-        <label for="popupTitle" class="col-sm-2 col-form-label">Title</label>
+        <label for="popupTitle" class="col-sm-2 col-form-label required">Title</label>
         <div class="col-sm-10">
           <input id="popupTitle" v-model="form.title" type="text" class="form-control" maxlength="70">
         </div>
       </div>
       <div class="form-group row">
-        <label for="popupContent" class="col-sm-2 col-form-label">Content</label>
+        <label for="popupContent" class="col-sm-2 col-form-label required">Content</label>
         <div class="col-sm-10">
           <textarea id="popupContent" v-model="form.content" class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label required">Show at most every</label>
+        <div class="col-sm-5">
+          <select v-model="form.frequencyValue" class="custom-select">
+            <option value="">-- Please select --</option>
+            <option v-for="o in form.frequencyList" :key="o.value" :value="o.value">
+              {{ o.text }}
+            </option>
+          </select>
         </div>
       </div>
       <h5 class="mb-0">Automatically show</h5>
@@ -29,7 +40,7 @@
             <label class="custom-control-label" for="showOnTimer">Show on a timer</label>
           </div>
         </div>
-        <div class="col-sm-5">
+        <div :class="['col-sm-5', !form.timerEnable && 'invisible']">
           <select v-model="form.timerValue" class="custom-select">
             <option value="">-- Please select --</option>
             <option v-for="o in form.timerList" :key="o.value" :value="o.value">
@@ -45,7 +56,7 @@
             <label class="custom-control-label" for="showAfterScrolling">Show after scrolling</label>
           </div>
         </div>
-        <div class="col-sm-5">
+        <div :class="['col-sm-5', !form.scrollingTriggerEnable && 'invisible']">
           <select v-model="form.scrollingTriggerValue" class="custom-select">
             <option value="">-- Please select --</option>
             <option v-for="o in form.scrollingTriggerList" :key="o.value" :value="o.value">
@@ -62,6 +73,7 @@
           </div>
         </div>
       </div>
+      <!--
       <div class="form-group row d-flex align-items-center">
         <div class="col-sm-3">
           <div class="custom-control custom-checkbox">
@@ -77,6 +89,7 @@
           </select>
         </div>
       </div>
+      -->
     </div>
     <hr class="full-hr" />
     <div class="row">
@@ -183,8 +196,12 @@ export default {
     closingModal() {
       document.body.classList.remove('overflow-hidden');
     },
-    exportFormData() {
-      const form = clone(this.form);
+    exportFormDataForSave() {
+      let form = clone(this.form);
+      form = Object.assign({}, form, {
+        timerEnable: !!form.timerValue,
+        scrollingTriggerEnable: !!form.scrollingTriggerValue
+      });
       delete form.timerList;
       delete form.scrollingTriggerList;
       delete form.frequencyList;
@@ -192,7 +209,7 @@ export default {
     },
     save() {
       // Perform validations here
-      this.$emit('save', this.exportFormData());
+      this.$emit('save', this.exportFormDataForSave());
     }
   }
 };
@@ -205,5 +222,13 @@ export default {
 .popup-details-modal {
   max-width: 900px;
   min-height: 250px;
+}
+label.required::before {
+  content: "*";
+  font-weight: normal;
+  color: $danger;
+  vertical-align: top;
+  display: inline-block;
+  line-height: 0.875rem;
 }
 </style>

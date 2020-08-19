@@ -34,13 +34,16 @@ class PopupController extends Controller
 
     public function create(Request $request)
     {
-        // Perform validations here
+        // Simple validations here
         $this->validate($request, [
+            'popup.id' => 'numeric',
             'popup.title' => 'required|max:255',
-            'popup.content' => 'required'
+            'popup.content' => 'required',
+            'popup.frequencyValue' => 'required'
         ],[
             'popup.title.required'=> 'The popup title is required',
             'popup.content.required'=> 'The popup content is required',
+            'popup.frequencyValue.required'=> 'Appearance frequency is required'
         ]);
         $popup = $request->input('popup');
         $res = $this->popup->create($popup);
@@ -49,14 +52,16 @@ class PopupController extends Controller
 
     public function update($id, Request $request)
     {
-        // Perform validations here
+        // Simple validations here
         $this->validate($request, [
             'popup.id' => 'numeric|required',
             'popup.title' => 'required|max:255',
-            'popup.content' => 'required'
+            'popup.content' => 'required',
+            'popup.frequencyValue' => 'required'
         ],[
             'popup.title.required'=> 'The popup title is required',
             'popup.content.required'=> 'The popup content is required',
+            'popup.frequencyValue.required'=> 'Appearance frequency is required'
         ]);
         $popup = $request->input('popup');
         $res = $this->popup->update($popup);
