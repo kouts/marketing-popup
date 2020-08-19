@@ -20,18 +20,24 @@ class Popup
 
     public function create($popup)
     {
+        $pairs = $this->createPairs($popup);
+        $pairs[':created_at'] = date('Y-m-d H:i:s');
+        $pairs[':updated_at'] = date('Y-m-d H:i:s');
         $res = app()->Db->qq("
             INSERT INTO
                 $this->table_name
             VALUES
-                (:id, :title, :timer_enable, :timer_value, :scrolling_trigger_enable, :scrolling_trigger_value, :exit_intent_enable, :frequency_value, :content)
+                (:id, :title, :timer_enable, :timer_value, :scrolling_trigger_enable, :scrolling_trigger_value, :exit_intent_enable, :frequency_value, :content, :created_at, :updated_at)
             ",
-        $this->createPairs($popup));
+        $pairs);
         return $res;
     }
 
     public function update($popup)
     {
+        $pairs = $this->createPairs($popup);
+        unset($pairs[':created_at']);
+        $pairs[':updated_at'] = date('Y-m-d H:i:s');
         $res = app()->Db->qq("
             UPDATE
                 $this->table_name
@@ -43,10 +49,11 @@ class Popup
                 scrolling_trigger_value	= :scrolling_trigger_value,
                 exit_intent_enable = :exit_intent_enable,
                 frequency_value = :frequency_value,
-                content = :content
+                content = :content,
+                updated_at = :updated_at
             WHERE
                 id = :id",
-        $this->createPairs($popup));
+        $pairs);
         return $res;
     }
 
@@ -66,7 +73,9 @@ class Popup
             ':scrolling_trigger_value'	=> $popup['scrollingTriggerValue'],
             ':exit_intent_enable' => $popup['exitIntentEnable'],
             ':frequency_value' => $popup['frequencyValue'],
-            ':content' => $popup['content']
+            ':content' => $popup['content'],
+            ':created_at' => null,
+            ':updated_at' => null
         ];        
     }
 }

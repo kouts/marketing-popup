@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 19, 2020 at 03:59 PM
+-- Generation Time: Aug 19, 2020 at 05:54 PM
 -- Server version: 5.7.30
 -- PHP Version: 7.1.33-15+0~20200419.36+debian8~1.gbp2384b3
 
@@ -68,16 +68,17 @@ CREATE TABLE `popup` (
   `scrolling_trigger_value` varchar(255) NOT NULL,
   `exit_intent_enable` tinyint(1) NOT NULL,
   `frequency_value` varchar(255) NOT NULL,
-  `content` text NOT NULL
+  `content` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `popup`
 --
 
-INSERT INTO `popup` (`id`, `title`, `timer_enable`, `timer_value`, `scrolling_trigger_enable`, `scrolling_trigger_value`, `exit_intent_enable`, `frequency_value`, `content`) VALUES
-(1, 'Scrolling popup', 0, '', 1, '25', 0, '86400', 'This is a popup that appears after scrolling 25% of the page!'),
-(6, 'Exit intent popup', 0, '', 0, '', 1, '86400', 'This is a popup that appears when the user intents to leave the page.');
+INSERT INTO `popup` (`id`, `title`, `timer_enable`, `timer_value`, `scrolling_trigger_enable`, `scrolling_trigger_value`, `exit_intent_enable`, `frequency_value`, `content`, `created_at`, `updated_at`) VALUES
+(8, 'First popup', 0, '', 0, '', 0, '86400', 'First popup', '2020-08-19 14:52:30', '2020-08-19 14:53:14');
 
 --
 -- Indexes for dumped tables
@@ -109,7 +110,7 @@ ALTER TABLE `list_of_values`
 -- AUTO_INCREMENT for table `popup`
 --
 ALTER TABLE `popup`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
