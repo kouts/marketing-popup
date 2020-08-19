@@ -38,6 +38,9 @@
 // Modal
 @import "~@kouts/vue-modal/dist/vue-modal.css";
 
+// Notifications
+@import "~notyf/notyf.min.css";
+
 .vm-btn-close:focus {
   outline: thin dotted !important;
 }

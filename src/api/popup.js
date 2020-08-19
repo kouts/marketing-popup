@@ -13,7 +13,6 @@ export const fetchPopup = (id) => {
 };
 
 export const createPopup = (data) => {
-  console.log('creating');
   return request({
     method: 'post',
     url: 'popups/create',

@@ -102,10 +102,10 @@ export default {
     async deletePopup(id) {
       try {
         await deletePopup(id);
+        this.fetchPageData();
       } catch (error) {
         console.log(error);
       }
-      this.fetchPageData();
     },
     async savePopup(popupData) {
       try {
@@ -114,11 +114,21 @@ export default {
         } else {
           await updatePopup(popupData.id, popupData);
         }
+        this.showModal = false;
+        this.fetchPageData();
       } catch (error) {
+        this.handleError(error);
+      }
+    },
+    handleError(error) {
+      if (error.response && error.response.status === 422) {
+        for (const msgArr in error.response.data) {
+          const msg = error.response.data[msgArr][0];
+          this.$notyf.error(msg);
+        }
+      } else {
         console.log(error);
       }
-      this.showModal = false;
-      this.fetchPageData();
     }
   }
 };
