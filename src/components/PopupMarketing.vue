@@ -67,16 +67,12 @@ export default {
     };
   },
   created() {
-    const popupInfo = getObject(this.popupId);
-    if (popupInfo && (dateTimetoUnix(this.updatedAt) > popupInfo.injected)) {
-      // Reset here...
-      console.log('Settings have been updated');
-    } else {
-      console.log('Settings have NOT been updated');
-    }
+    const popupInfo = getObject(this.popupId) || { opened: 0 };
+    const settingsUpdated = popupInfo && (dateTimetoUnix(this.updatedAt) > popupInfo.lastInjected);
     setObject(this.popupId, {
-      injected: dateToUnix(),
-      updatedAt: this.updatedAt
+      lastInjected: dateToUnix(),
+      updatedAt: this.updatedAt,
+      opened: settingsUpdated ? 0 : popupInfo.opened
     });
   },
   mounted() {
