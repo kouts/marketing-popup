@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <modal
-      v-model="modalTrigger"
-      :title="popupTitle"
-      @after-open="onAfterModalOpen"
-      @closing="onClosingModal"
-    >
-      <slot></slot>
-    </modal>
-  </div>
+  <modal
+    v-model="modalTrigger"
+    :title="popupTitle"
+    @after-open="onAfterModalOpen"
+    @closing="onClosingModal"
+  >
+    <slot></slot>
+  </modal>
 </template>
 
 <script>
@@ -17,9 +15,15 @@ import { createScrollPercent } from '@/common/scroll-percent';
 import { setObject, getObject } from '@/common/storage';
 import Modal from '@kouts/vue-modal';
 
-function unixNow() {
-  // Timestamp in seconds
-  return Math.floor(Date.now() / 1000);
+function dateToUnix(date) {
+  date = date || new Date();
+  return Math.floor(Math.floor(date.getTime() / 1000));
+}
+
+function dateTimetoUnix(dateTime) {
+  var t = dateTime.split(/[- :]/);
+  var d = new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
+  return Math.floor(d.getTime() / 1000);
 }
 
 export default {
@@ -50,6 +54,10 @@ export default {
     showFrequency: {
       type: Number,
       default: 0
+    },
+    updatedAt: {
+      type: String,
+      default: ''
     }
   },
   data: function() {
@@ -57,6 +65,19 @@ export default {
       modalTrigger: false,
       timeout: null
     };
+  },
+  created() {
+    const popupInfo = getObject(this.popupId);
+    if (popupInfo && (dateTimetoUnix(this.updatedAt) > popupInfo.injected)) {
+      // Reset here...
+      console.log('Settings have been updated');
+    } else {
+      console.log('Settings have NOT been updated');
+    }
+    setObject(this.popupId, {
+      injected: dateToUnix(),
+      updatedAt: this.updatedAt
+    });
   },
   mounted() {
     if (this.showAfterMinutes) {
@@ -105,7 +126,7 @@ export default {
         return;
       }
       // Store opened time in localStorage
-      const now = unixNow();
+      const now = dateToUnix();
       setObject(this.popupId, {
         opened: now
       });
@@ -113,7 +134,7 @@ export default {
       this.modalTrigger = true;
     },
     shouldModalOpen() {
-      const now = unixNow();
+      const now = dateToUnix();
       const popupInfo = getObject(this.popupId);
       if (!popupInfo) {
         return true;

@@ -61,6 +61,7 @@
         :show-after-scroll-percent="Number(popup.scrolling_trigger_value)"
         :show-on-exit-intent="!!popup.exit_intent_enable"
         :show-frequency="Number(popup.frequency_value)"
+        :updated-at="popup.updated_at"
       >
         <div> {{ popup.content }}</div>
       </popup-marketing>
