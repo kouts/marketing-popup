@@ -2,21 +2,25 @@
   <div class="container">
     <div class="text-center">
       <h1 class="mb-4">Marketing Page</h1>
-      <div class="mb-4">
-        <button type="button" class="btn btn-primary" @click="showPopupMarketingSection = !showPopupMarketingSection">
-          Toggle marketing modals function
-        </button>
-        <button type="button" class="btn btn-primary ml-2" @click="showModal">
-          Open a modal
-        </button>
-        <button type="button" class="btn btn-primary ml-2" @click="clearLocalStorage">
-          Clear localStorage!
-        </button>
+    </div>
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col d-flex justify-content-between align-items-center">
+            <div class="custom-control custom-switch">
+              <input id="onOffSwitch" v-model="showPopupMarketingSection" type="checkbox" class="custom-control-input">
+              <label class="custom-control-label" for="onOffSwitch">Toggle marketing popups</label>
+            </div>
+            <button type="button" class="btn btn-primary ml-2" @click="clearLocalStorage">
+              Clear localStorage!
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
       <div class="mx-auto col-lg-10 col-xl-8">
-        <p class="lead mb-5">As am hastily invited <strong>settled at limited</strong> civilly fortune me. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+        <p class="lead mb-5">As am hastily invited <strong><a href="javascript:;" @click="showModal">Click me to show popup</a></strong> civilly fortune me. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
       </div>
     </div>
     <div class="row">
@@ -92,9 +96,12 @@ export default {
     ...mapActions(['fetchPopups']),
     clearLocalStorage() {
       localStorage.clear();
+      console.info('Local storage cleared');
     },
     showModal() {
-      this.$refs['popup-0'][0].showModal();
+      if (this.$refs['popup-0'] && this.$refs['popup-0'].length) {
+        this.$refs['popup-0'][0].showModal();
+      }
     }
   }
 };
