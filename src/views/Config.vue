@@ -21,7 +21,7 @@
           :frequency-text="getFromList(lovs.frequency, item.frequency_value)"
           class="mb-2"
           @edit="editPopup"
-          @delete="deletePopup"
+          @delete="idToDelete = item.id; showDeleteModal = true"
         />
         <div v-if="!loading && popups.length === 0" class="text-center">
           <h2>No popups found</h2>
@@ -46,6 +46,20 @@
       @modal-closed="showModal = false"
       @save="savePopup"
     />
+    <modal ref="conf" v-model="showDeleteModal" title="Confirmation">
+      <div class="row">
+        <div class="col-sm-12">Are you sure you want to delete this popup?</div>
+      </div>
+      <hr class="full-hr" />
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="float-right">
+            <button type="button" class="btn btn-primary" autofocus @click="deletePopup">Ok</button>
+            <button type="button" class="btn btn-link ml-2" @click="showDeleteModal = false">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -55,17 +69,21 @@ import { getFromList } from '@/common/utils';
 import { createPopup, updatePopup, deletePopup } from '@/api/popup';
 import PopupCard from '@/components/PopupCard.vue';
 import PopupDetails from '@/components/PopupDetails.vue';
+import Modal from '@kouts/vue-modal';
 
 export default {
   components: {
     PopupCard,
-    PopupDetails
+    PopupDetails,
+    Modal
   },
   data() {
     return {
       loading: false,
       loadingModal: false,
-      showModal: false
+      showModal: false,
+      showDeleteModal: false,
+      idToDelete: null
     };
   },
   computed: {
@@ -99,10 +117,13 @@ export default {
       this.showModal = true;
       this.loadingModal = false;
     },
-    async deletePopup(id) {
+    async deletePopup() {
+      const id = this.idToDelete;
       try {
         await deletePopup(id);
         this.fetchPageData();
+        this.showDeleteModal = false;
+        this.idToDelete = null;
       } catch (error) {
         console.log(error);
       }
