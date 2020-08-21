@@ -156,9 +156,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-  h1.heading {
-    color: $gray-900;
-  }
-</style>
