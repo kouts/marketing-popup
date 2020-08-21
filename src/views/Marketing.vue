@@ -69,7 +69,7 @@
         :show-frequency="Number(popup.frequency_value)"
         :updated-at="popup.updated_at"
       >
-        <div style="white-space: pre;">{{ popup.content }}</div>
+        <div style="white-space: pre-wrap;">{{ popup.content }}</div>
       </popup-marketing>
     </template>
   </div>
