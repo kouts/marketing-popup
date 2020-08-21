@@ -34,17 +34,7 @@ class PopupController extends Controller
 
     public function create(Request $request)
     {
-        // Simple validations here
-        $this->validate($request, [
-            'popup.id' => 'numeric',
-            'popup.title' => 'required|max:255',
-            'popup.content' => 'required',
-            'popup.frequencyValue' => 'required'
-        ],[
-            'popup.title.required'=> 'The popup title is required',
-            'popup.content.required'=> 'The popup content is required',
-            'popup.frequencyValue.required'=> 'Appearance frequency is required'
-        ]);
+        $this->validateRequest($request);
         $popup = $request->input('popup');
         $res = $this->popup->create($popup);
         return response()->json($res, 201);
@@ -52,17 +42,7 @@ class PopupController extends Controller
 
     public function update($id, Request $request)
     {
-        // Simple validations here
-        $this->validate($request, [
-            'popup.id' => 'numeric|required',
-            'popup.title' => 'required|max:255',
-            'popup.content' => 'required',
-            'popup.frequencyValue' => 'required'
-        ],[
-            'popup.title.required'=> 'The popup title is required',
-            'popup.content.required'=> 'The popup content is required',
-            'popup.frequencyValue.required'=> 'Appearance frequency is required'
-        ]);
+        $this->validateRequest($request);
         $popup = $request->input('popup');
         $res = $this->popup->update($popup);
         return response()->json($res);
@@ -72,6 +52,20 @@ class PopupController extends Controller
     {
         $res = $this->popup->delete($id);
         return response()->json($res);
+    }
+
+    private function validateRequest(Request $request)
+    {
+        return $this->validate($request, [
+            'popup.id' => 'numeric|required',
+            'popup.title' => 'required|max:255',
+            'popup.content' => 'required',
+            'popup.frequencyValue' => 'required'
+        ],[
+            'popup.title.required'=> 'The popup title is required',
+            'popup.content.required'=> 'The popup content is required',
+            'popup.frequencyValue.required'=> 'Appearance frequency is required'
+        ]);
     }
     
 }
