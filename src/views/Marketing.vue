@@ -20,7 +20,9 @@
     </div>
     <div class="row">
       <div class="mx-auto col-lg-10 col-xl-8">
-        <p class="lead mb-5">As am hastily invited <strong><a href="javascript:;" @click="showModal">Click me to show popup</a></strong> civilly fortune me. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+        <p class="lead mb-5">
+          As am hastily invited <strong><a href="https://www.google.gr" @click="showModal($event)">Click me to show popup</a></strong> civilly fortune me. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+        </p>
       </div>
     </div>
     <div class="row">
@@ -67,7 +69,7 @@
         :show-frequency="Number(popup.frequency_value)"
         :updated-at="popup.updated_at"
       >
-        <div> {{ popup.content }}</div>
+        <div style="white-space: pre;">{{ popup.content }}</div>
       </popup-marketing>
     </template>
   </div>
@@ -98,9 +100,12 @@ export default {
       localStorage.clear();
       console.info('Local storage cleared');
     },
-    showModal() {
+    showModal(e) {
       if (this.$refs['popup-0'] && this.$refs['popup-0'].length) {
-        this.$refs['popup-0'][0].showModal();
+        if (this.$refs['popup-0'][0].shouldModalOpen()) {
+          e.preventDefault();
+          this.$refs['popup-0'][0].showModal();
+        }
       }
     }
   }
