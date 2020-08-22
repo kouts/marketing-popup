@@ -6,14 +6,16 @@
     <div class="card mb-4">
       <div class="card-body">
         <div class="row">
-          <div class="col d-flex justify-content-between align-items-center">
-            <div class="custom-control custom-switch">
-              <input id="onOffSwitch" v-model="showPopupMarketingSection" type="checkbox" class="custom-control-input">
-              <label class="custom-control-label" for="onOffSwitch">Toggle marketing popups</label>
+          <div class="col">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+              <div class="custom-control custom-switch mb-3 mb-sm-0">
+                <input id="onOffSwitch" v-model="showPopupMarketingSection" type="checkbox" class="custom-control-input">
+                <label class="custom-control-label" for="onOffSwitch">Toggle marketing popups</label>
+              </div>
+              <button type="button" class="btn btn-primary ml-2" @click="clearLocalStorage">
+                Clear localStorage!
+              </button>
             </div>
-            <button type="button" class="btn btn-primary ml-2" @click="clearLocalStorage">
-              Clear localStorage!
-            </button>
           </div>
         </div>
       </div>
