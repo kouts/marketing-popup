@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <div v-if="loadingModal" class="position-relative text-center">
+      <div class="position-absolute alert alert-info alert-info-loader ml-auto mr-auto">
+        <span>Loading...</span>
+      </div>
+    </div>
     <div class="d-flex flex-row justify-content-between align-items-center">
       <h1 class="mb-4">Popups configuration</h1>
       <button type="button" class="btn btn-primary" :disabled="popups.length > 2" @click="createPopup">
@@ -7,6 +12,13 @@
       </button>
     </div>
     <div class="row">
+      <div v-if="loading" class="col-sm-12">
+        <div v-for="card in [1, 2]" :key="card" class="card mb-2">
+          <div class="card-body">
+            <div class="shimmer-bg" style="height: 98px;"></div>
+          </div>
+        </div>
+      </div>
       <div v-if="!loading" class="col-sm-12">
         <popup-card
           v-for="item in popups"
@@ -21,7 +33,7 @@
           :frequency-text="getFromList(lovs.frequency, item.frequency_value)"
           class="mb-2"
           @edit="editPopup"
-          @delete="idToDelete = item.id; showDeleteModal = true"
+          @delete="idToDelete = item.id; showDeleteModal = true;"
         />
         <div v-if="!loading && popups.length === 0" class="text-center">
           <h2>No popups found</h2>
@@ -99,7 +111,13 @@ export default {
     this.loading = false;
   },
   methods: {
-    ...mapActions(['fetchPopups', 'fetchPopup', 'updatePopup', 'initializePopup', 'fetchListOfValues']),
+    ...mapActions([
+      'fetchPopups',
+      'fetchPopup',
+      'updatePopup',
+      'initializePopup',
+      'fetchListOfValues'
+    ]),
     getFromList,
     fetchPageData() {
       return Promise.all([
@@ -120,9 +138,11 @@ export default {
     async deletePopup() {
       const id = this.idToDelete;
       try {
+        this.loadingModal = true;
         await deletePopup(id);
         this.fetchPageData();
         this.showDeleteModal = false;
+        this.loadingModal = false;
         this.idToDelete = null;
       } catch (error) {
         console.log(error);
@@ -154,3 +174,39 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.alert-info-loader {
+  width: 110px;
+  top: -2.5rem;
+  right: 0;
+  left: 0;
+  z-index: 2000;
+}
+.shimmer-bg {
+  animation-duration: 2.2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  background: #ddd;
+  background: linear-gradient(to right, #f6f6f6 8%, #f0f0f0 18%, #f6f6f6 33%);
+  background-size: 1200px 100%;
+}
+@-webkit-keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -1200px 0;
+  }
+  100% {
+    background-position: 1200px 0;
+  }
+}
+</style>
