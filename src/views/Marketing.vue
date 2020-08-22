@@ -26,14 +26,16 @@
       </div>
     </div>
     <div class="row">
-      <div class="mx-auto col-xl-10"><img src="/img/photo1.jpg" alt="Photo 1" class="img-fluid mb-5"></div>
+      <div class="mx-auto col-xl-10">
+        <img src="/img/photo1.jpg" loading="lazy" alt="Photo 1" class="img-fluid mb-5">
+      </div>
     </div>
     <div class="row">
       <div class="mx-auto col-lg-10 col-xl-8">
         <div class="text-content">
           <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
           <figure class="figure mb-3">
-            <img src="/img/photo2.jpg" alt="Example blog post alt." class="figure-img img-fluid">
+            <img src="/img/photo2.jpg" loading="lazy" alt="Example blog post alt." class="figure-img img-fluid">
             <figcaption class="figure-caption text-center">Photo by Jack Tran, New York </figcaption>
           </figure>
           <h2>Header Level 2</h2>
@@ -49,7 +51,7 @@
             <li>Aliquam tincidunt mauris eu risus.</li>
           </ul>
           <p>
-            <img src="/img/photo3.jpg" alt="Example blog post" class="img-fluid">
+            <img src="/img/photo3.jpg" loading="lazy" alt="Example blog post" class="img-fluid">
           </p>
           <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. </p>
           <p>Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus </p>
