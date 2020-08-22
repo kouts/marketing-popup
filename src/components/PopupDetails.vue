@@ -7,79 +7,81 @@
     @after-open="afterModalOpen"
     @closing="closingModal"
   >
-    <div v-if="!loading" class="pt-2 px-2">
-      <div class="form-group row">
-        <label for="popupTitle" class="col-sm-2 col-form-label required">Title</label>
-        <div class="col-sm-10">
-          <input id="popupTitle" v-model="form.title" type="text" class="form-control" maxlength="70">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="popupContent" class="col-sm-2 col-form-label required">Content</label>
-        <div class="col-sm-10">
-          <textarea id="popupContent" v-model="form.content" class="form-control" rows="3"></textarea>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label required">Show at most every</label>
-        <div class="col-sm-5">
-          <select v-model="form.frequencyValue" class="custom-select">
-            <option value="">-- Please select --</option>
-            <option v-for="o in form.frequencyList" :key="o.value" :value="o.value">
-              {{ o.text }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <h5 class="mb-0">Automatically show</h5>
-      <hr class="mt-1" />
-      <div class="form-group row d-flex align-items-center">
-        <div class="col-sm-3 mb-2 mb-sm-0">
-          <div class="custom-control custom-checkbox">
-            <input id="showOnTimer" v-model="form.timerEnable" type="checkbox" class="custom-control-input" @change="timerCheckChanged($event)">
-            <label class="custom-control-label" for="showOnTimer">Show on a timer</label>
+    <div v-if="!loading">
+      <div class="pt-2 px-2">
+        <div class="form-group row">
+          <label for="popupTitle" class="col-sm-2 col-form-label required">Title</label>
+          <div class="col-sm-10">
+            <input id="popupTitle" v-model="form.title" type="text" class="form-control" maxlength="70">
           </div>
         </div>
-        <div :class="['col-sm-5', !form.timerEnable && 'invisible']">
-          <select v-model="form.timerValue" class="custom-select">
-            <option value="">-- Please select --</option>
-            <option v-for="o in form.timerList" :key="o.value" :value="o.value">
-              {{ o.text }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group row d-flex align-items-center">
-        <div class="col-sm-3 mb-2 mb-sm-0">
-          <div class="custom-control custom-checkbox">
-            <input id="showAfterScrolling" v-model="form.scrollingTriggerEnable" type="checkbox" class="custom-control-input" @change="scrollingCheckChanged($event)">
-            <label class="custom-control-label" for="showAfterScrolling">Show after scrolling</label>
+        <div class="form-group row">
+          <label for="popupContent" class="col-sm-2 col-form-label required">Content</label>
+          <div class="col-sm-10">
+            <textarea id="popupContent" v-model="form.content" class="form-control" rows="3"></textarea>
           </div>
         </div>
-        <div :class="['col-sm-5', !form.scrollingTriggerEnable && 'invisible']">
-          <select v-model="form.scrollingTriggerValue" class="custom-select">
-            <option value="">-- Please select --</option>
-            <option v-for="o in form.scrollingTriggerList" :key="o.value" :value="o.value">
-              {{ o.text }}
-            </option>
-          </select>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label required">Show at most every</label>
+          <div class="col-sm-5">
+            <select v-model="form.frequencyValue" class="custom-select">
+              <option value="">-- Please select --</option>
+              <option v-for="o in form.frequencyList" :key="o.value" :value="o.value">
+                {{ o.text }}
+              </option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-sm-3">
-          <div class="custom-control custom-checkbox">
-            <input id="showOnExitIntent" v-model="form.exitIntentEnable" type="checkbox" class="custom-control-input">
-            <label class="custom-control-label" for="showOnExitIntent">Show on exit intent</label>
+        <h5 class="mb-0">Automatically show</h5>
+        <hr class="mt-1" />
+        <div class="form-group row d-flex align-items-center">
+          <div class="col-sm-3 mb-2 mb-sm-0">
+            <div class="custom-control custom-checkbox">
+              <input id="showOnTimer" v-model="form.timerEnable" type="checkbox" class="custom-control-input" @change="timerCheckChanged($event)">
+              <label class="custom-control-label" for="showOnTimer">Show on a timer</label>
+            </div>
+          </div>
+          <div :class="['col-sm-5', !form.timerEnable && 'invisible']">
+            <select v-model="form.timerValue" class="custom-select">
+              <option value="">-- Please select --</option>
+              <option v-for="o in form.timerList" :key="o.value" :value="o.value">
+                {{ o.text }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row d-flex align-items-center">
+          <div class="col-sm-3 mb-2 mb-sm-0">
+            <div class="custom-control custom-checkbox">
+              <input id="showAfterScrolling" v-model="form.scrollingTriggerEnable" type="checkbox" class="custom-control-input" @change="scrollingCheckChanged($event)">
+              <label class="custom-control-label" for="showAfterScrolling">Show after scrolling</label>
+            </div>
+          </div>
+          <div :class="['col-sm-5', !form.scrollingTriggerEnable && 'invisible']">
+            <select v-model="form.scrollingTriggerValue" class="custom-select">
+              <option value="">-- Please select --</option>
+              <option v-for="o in form.scrollingTriggerList" :key="o.value" :value="o.value">
+                {{ o.text }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3">
+            <div class="custom-control custom-checkbox">
+              <input id="showOnExitIntent" v-model="form.exitIntentEnable" type="checkbox" class="custom-control-input">
+              <label class="custom-control-label" for="showOnExitIntent">Show on exit intent</label>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <hr class="full-hr" />
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="float-right">
-          <button type="button" class="btn btn-primary" @click="save">Ok</button>
-          <button type="button" class="btn btn-secondary ml-2" @click="open = false">Close</button>
+      <hr class="full-hr" />
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="float-right">
+            <button type="button" class="btn btn-primary" @click="save">Ok</button>
+            <button type="button" class="btn btn-secondary ml-2" @click="open = false">Close</button>
+          </div>
         </div>
       </div>
     </div>
