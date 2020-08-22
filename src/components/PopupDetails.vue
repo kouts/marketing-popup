@@ -41,7 +41,7 @@
               <label class="custom-control-label" for="showOnTimer">Show on a timer</label>
             </div>
           </div>
-          <div :class="['col-sm-5', !form.timerEnable && 'invisible']">
+          <div :class="['col-sm-5', !form.timerEnable && 'invisible d-none d-sm-block']">
             <select v-model="form.timerValue" class="custom-select">
               <option value="">-- Please select --</option>
               <option v-for="o in form.timerList" :key="o.value" :value="o.value">
@@ -57,7 +57,7 @@
               <label class="custom-control-label" for="showAfterScrolling">Show after scrolling</label>
             </div>
           </div>
-          <div :class="['col-sm-5', !form.scrollingTriggerEnable && 'invisible']">
+          <div :class="['col-sm-5', !form.scrollingTriggerEnable && 'invisible d-none d-sm-block']">
             <select v-model="form.scrollingTriggerValue" class="custom-select">
               <option value="">-- Please select --</option>
               <option v-for="o in form.scrollingTriggerList" :key="o.value" :value="o.value">

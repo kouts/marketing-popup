@@ -5,11 +5,15 @@
         <span>Loading...</span>
       </div>
     </div>
-    <div class="d-flex flex-row justify-content-between align-items-center">
-      <h1 class="mb-4">Popups configuration</h1>
-      <button type="button" class="btn btn-primary" :disabled="popups.length > 2" @click="createPopup">
-        Create popup
-      </button>
+    <div class="row align-items-center">
+      <div class="col-sm-6">
+        <h1 class="mb-3">Popups configuration</h1>
+      </div>
+      <div class="col-sm-6">
+        <button type="button" class="btn btn-primary float-right mb-3 mb-sm-0" :disabled="popups.length > 2" @click="createPopup">
+          Create popup
+        </button>
+      </div>
     </div>
     <div class="row">
       <div v-if="loading" class="col-sm-12">

@@ -38,8 +38,9 @@ function createExitIntent(options) {
   const touchEndHandler = (e) => {
     touchEndY = e.changedTouches[0].clientY;
     if (touchStartY > touchEndY) {
+      // console.log('scrolled down');
     } else {
-      // up
+      // console.log('scrolled up');
       opts.onTrigger();
     }
   };

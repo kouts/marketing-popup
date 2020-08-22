@@ -16,10 +16,10 @@
       <div id="navbarDefault" :class="['collapse navbar-collapse', navbarExpanded && 'show']">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <router-link to="/" exact exact-active-class="active" class="nav-link" @click.native="collapseNavbar">Config</router-link>
+            <router-link to="/" exact exact-active-class="active" class="nav-link" @click.native="collapseNavbar">Configuration</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/marketing" class="nav-link" @click.native="collapseNavbar">Marketing</router-link>
+            <router-link to="/marketing" class="nav-link" @click.native="collapseNavbar">Marketing page</router-link>
           </li>
         </ul>
       </div>
