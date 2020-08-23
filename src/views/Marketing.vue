@@ -3,27 +3,10 @@
     <div class="text-center">
       <h1 class="mb-4">Marketing Page</h1>
     </div>
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="col">
-            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-              <div class="custom-control custom-switch mb-3 mb-sm-0">
-                <input id="onOffSwitch" v-model="showPopupMarketingSection" type="checkbox" class="custom-control-input">
-                <label class="custom-control-label" for="onOffSwitch">Toggle marketing popups</label>
-              </div>
-              <button type="button" class="btn btn-primary ml-2" @click="clearLocalStorage">
-                Clear localStorage!
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="row">
       <div class="mx-auto col-lg-10 col-xl-8">
         <p class="lead mb-5">
-          As am hastily invited <strong><a href="https://www.google.gr" @click="showModal($event)">Click me to show popup</a></strong> civilly fortune me. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+          As am hastily invited <strong><a href="https://www.google.gr" @click="showModal($event)">go to Google (shows the first defined popup)</a></strong> civilly fortune me. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
         </p>
       </div>
     </div>
@@ -57,6 +40,26 @@
           </p>
           <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. </p>
           <p>Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="mx-auto col-xl-10">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h3>For testing</h3>
+            <div class="row">
+              <div class="col">
+                <div class="custom-control custom-switch mb-3 ml-2">
+                  <input id="onOffSwitch" v-model="showPopupMarketingSection" type="checkbox" class="custom-control-input">
+                  <label class="custom-control-label" for="onOffSwitch">{{ showPopupMarketingSection ? 'Disable' : 'Enable' }} marketing popups functionality</label>
+                </div>
+                <button type="button" class="btn btn-primary ml-2" @click="clearLocalStorage">
+                  Clear localStorage!
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -102,7 +105,7 @@ export default {
     ...mapActions(['fetchPopups']),
     clearLocalStorage() {
       localStorage.clear();
-      console.info('Local storage cleared');
+      this.$notyf.success('Local storage cleared');
     },
     showModal(e) {
       if (this.$refs['popup-0'] && this.$refs['popup-0'].length) {
