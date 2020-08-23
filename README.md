@@ -23,7 +23,7 @@ This is the sample page that is used to display the popups created in the config
 
 
 **Some notes**
-- Popups use LocalStorage to store data about how often they can be displayed. After editing a popup this "frequency" setting gets reset.
+- Popups use localStorage to store data about how often they can be displayed. After editing a popup this "frequency" setting gets reset.
 - Popups can also open "manually" when bound into certain links on the page.
 
 ### Live demo
