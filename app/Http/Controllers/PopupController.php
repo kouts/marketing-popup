@@ -36,6 +36,12 @@ class PopupController extends Controller
     {
         $this->validateRequest($request);
         $popup = $request->input('popup');
+        $all = $this->popup->getAll();
+        if (count($all) >= 3) {
+            return response()->json([
+                'error' => ['You cannot create more than 3 popups.']
+            ], 422);
+        }
         $res = $this->popup->create($popup);
         return response()->json($res, 201);
     }
